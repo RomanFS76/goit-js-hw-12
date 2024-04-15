@@ -21,6 +21,7 @@ formEl.addEventListener('submit', event => {
 
   loaderEl.classList.add('is-visible');
   gallaryEl.innerHTML = '';
+  
   getPhotos(inputValue)
     .then(data => {
       loaderEl.classList.remove('is-visible');
