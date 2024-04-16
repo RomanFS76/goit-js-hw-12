@@ -19,11 +19,11 @@ formEl.addEventListener('submit', event => {
   event.preventDefault();
   const inputValue = event.target.elements.input.value;
 
-  loaderEl.classList.add('is-visible');
+  loaderEl.classList.remove('visually-hidden');
   gallaryEl.innerHTML = '';
 
   getPhotos(inputValue).then(data => {
-    loaderEl.classList.remove('is-visible');
+    loaderEl.classList.add('visually-hidden');
     if (inputValue === '') {
       iziToast.show({
         message: 'Field must be filled!',
@@ -44,6 +44,7 @@ formEl.addEventListener('submit', event => {
     }
     gallaryEl.insertAdjacentHTML('beforeend', renderImages(data.hits));
     lightbox.refresh();
-  });
+  })
+  .catch (error => console.log(error));
   formEl.reset();
 });

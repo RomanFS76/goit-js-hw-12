@@ -6,6 +6,7 @@ body {
   font-size: 16px;
   color: #fff;
   padding-top: 36px;
+
 }
 
 form {
@@ -18,8 +19,9 @@ form {
 }
 
 .gallary {
-  width: 1128px;
+    width: 1128px;
   margin: 0 auto;
+  margin-bottom: 32px;
   display: flex;
   flex-wrap: wrap;
   row-gap: 10px;
@@ -70,7 +72,7 @@ input::placeholder {
   letter-spacing: 0.04em;
 }
 
-button {
+.btn-submit {
   width: 91px;
   border-radius: 8px;
   padding: 8px 16px;
@@ -120,7 +122,6 @@ span {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 400;
   position: relative;
-  visibility: hidden;
 }
 .loader:after {
   content: 'Loading';
@@ -146,6 +147,50 @@ span {
   }
 }
 
-.is-visible {
+/* .is-visible {
   visibility: visible;
+} */
+
+.btn-submit {
+  width: 91px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  background: #4e75ff;
+  border: transparent;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+
+.btn-load-more {
+  width: 125px;
+  height: 40px;
+  padding: 8px 16px 8px 16px;
+  border-radius: 8px;
+  background-color:#4E75FF;
+  color: #fff;
+  border: transparent;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0 auto;
+  display: block;  
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }

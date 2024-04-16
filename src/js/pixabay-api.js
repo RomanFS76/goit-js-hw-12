@@ -34,13 +34,14 @@ export async function getPhotos(inputValue) {
       orientation: 'horizontal',
       safesearch: true,
       per_page: 15,
-    },
+      page:1
+    }
   };
 
-  try {
+  // try {
     const { data } = await axios.get(URLservice, optPixabay);
     return data;
-  } catch (error) {
-    console.log(error.message);
-  }
+  // } catch (error) {
+  //   console.log(error.message);
+  // }
 }
