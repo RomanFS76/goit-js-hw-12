@@ -20,23 +20,25 @@
 //   });
 // }
 
-import axios from "axios";
+import axios from 'axios';
+
+const URLservice = 'https://pixabay.com/api/';
+const API_KEY = '43330031-9673f4a92262d12e3841226eb';
 
 export async function getPhotos(inputValue) {
-  const URLservice = 'https://pixabay.com/api/';
-  const API_KEY = '43330031-9673f4a92262d12e3841226eb';
+  const optPixabay = {
+    params: {
+      key: API_KEY,
+      q: inputValue,
+      image_type: 'photo',
+      orientation: 'horizontal',
+      safesearch: true,
+      per_page: 15,
+    },
+  };
 
   try {
-    const { data } = await axios(URLservice, {
-      params: {
-        key: API_KEY,
-        q: inputValue,
-        image_type: 'photo',
-        orientation: 'horizontal',
-        safesearch: true,
-        per_page: 15,
-      },
-    });
+    const { data } = await axios.get(URLservice, optPixabay);
     return data;
   } catch (error) {
     console.log(error.message);

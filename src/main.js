@@ -21,31 +21,29 @@ formEl.addEventListener('submit', event => {
 
   loaderEl.classList.add('is-visible');
   gallaryEl.innerHTML = '';
-  
-  getPhotos(inputValue)
-    .then(data => {
-      loaderEl.classList.remove('is-visible');
-      if (inputValue === '') {
-        iziToast.show({
-          message: 'Field must be filled!',
-          color: 'green', // blue, red, green, yellow
-          position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
-          timeout: 2000,
-        });
-        return;
-      }
-      if (Object.keys(data.hits).length === 0) {
-        iziToast.show({
-          message:
-            'Sorry, there are no images matching your search query. Please try again!',
-          color: 'blue', // blue, red, green, yellow
-          position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
-          timeout: 3000,
-        });
-      }
-      gallaryEl.insertAdjacentHTML('beforeend', renderImages(data.hits));
-      lightbox.refresh();
-    })
-    .catch(error => console.log(error));
+
+  getPhotos(inputValue).then(data => {
+    loaderEl.classList.remove('is-visible');
+    if (inputValue === '') {
+      iziToast.show({
+        message: 'Field must be filled!',
+        color: 'green', // blue, red, green, yellow
+        position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+        timeout: 2000,
+      });
+      return;
+    }
+    if (Object.keys(data.hits).length === 0) {
+      iziToast.show({
+        message:
+          'Sorry, there are no images matching your search query. Please try again!',
+        color: 'blue', // blue, red, green, yellow
+        position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+        timeout: 3000,
+      });
+    }
+    gallaryEl.insertAdjacentHTML('beforeend', renderImages(data.hits));
+    lightbox.refresh();
+  });
   formEl.reset();
 });
