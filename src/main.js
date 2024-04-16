@@ -9,6 +9,7 @@ import { renderImages } from './js/render-functions.js';
 
 const formEl = document.querySelector('.form-search');
 const gallaryEl = document.querySelector('.gallary');
+const btnLoadMoreEl = document.querySelector('.btn-load-more');
 const loaderEl = document.querySelector('span');
 const lightbox = new SimpleLightbox('.gallary a', {
   captionsData: 'alt',
@@ -22,8 +23,10 @@ formEl.addEventListener('submit', event => {
   loaderEl.classList.remove('visually-hidden');
   gallaryEl.innerHTML = '';
 
-  getPhotos(inputValue).then(data => {
+  getPhotos(inputValue)
+    .then(data => {
     loaderEl.classList.add('visually-hidden');
+    
     if (inputValue === '') {
       iziToast.show({
         message: 'Field must be filled!',
@@ -44,7 +47,14 @@ formEl.addEventListener('submit', event => {
     }
     gallaryEl.insertAdjacentHTML('beforeend', renderImages(data.hits));
     lightbox.refresh();
+    btnLoadMoreEl.classList.remove('visually-hidden');
   })
   .catch (error => console.log(error));
   formEl.reset();
 });
+
+
+
+// btnLoadMoreEl.addEventListener('click', loadMore)
+
+// function loadMore ()
