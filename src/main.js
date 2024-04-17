@@ -10,10 +10,13 @@ import { renderImages } from './js/render-functions.js';
 const formEl = document.querySelector('.form-search');
 const gallaryEl = document.querySelector('.gallary');
 const loaderEl = document.querySelector('span');
+const btnLoaderMoreEl = document.querySelector('.btn-load-more');
 const lightbox = new SimpleLightbox('.gallary a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
+
+let page = 1;
 
 formEl.addEventListener('submit', async event => {
   event.preventDefault();
@@ -21,6 +24,8 @@ formEl.addEventListener('submit', async event => {
 
   loaderEl.classList.remove('visually-hidden');
   gallaryEl.innerHTML = '';
+  
+  page += 1;
 
   try {
     const response = await getPhotos(inputValue);
@@ -43,8 +48,12 @@ formEl.addEventListener('submit', async event => {
         timeout: 3000,
       });
     }
+
     gallaryEl.insertAdjacentHTML('beforeend', renderImages(response.hits));
     lightbox.refresh();
+
+    btnLoaderMoreEl.classList.remove('visually-hidden');
+
   } catch (error) {
     console.log(error.message);
   }
