@@ -1,3 +1,5 @@
+import { renderImages } from './render-functions.js';
+
 import axios from 'axios';
 
 import iziToast from 'izitoast';
@@ -6,26 +8,21 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-import { getPhotos } from './js/pixabay-api.js';
-import { renderImages } from './js/render-functions.js';
+const URLservice = 'https://pixabay.com/api/';
+const API_KEY = '43330031-9673f4a92262d12e3841226eb';
 
-const formEl = document.querySelector('.form-search');
-const gallaryEl = document.querySelector('.gallary');
-const btnLoadMoreEl = document.querySelector('.btn-load-more');
 const loaderEl = document.querySelector('span');
+const gallaryEl = document.querySelector('.gallary');
+
 const lightbox = new SimpleLightbox('.gallary a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
 
-const URLservice = 'https://pixabay.com/api/';
-const API_KEY = '43330031-9673f4a92262d12e3841226eb';
+let page = 1;
 
-
-
-export async function getPhotos(inputValue) {
-
-  const optPixabay = {
+export async function getPhotos(inputValue, page = 1) {
+  const { data } = await axios.get(URLservice, {
     params: {
       key: API_KEY,
       q: inputValue,
@@ -33,44 +30,33 @@ export async function getPhotos(inputValue) {
       orientation: 'horizontal',
       safesearch: true,
       per_page: 15,
-      page: 1,
+      page,
     },
-  };
+  });
 
-  try {
-    const { data } = await axios.get(URLservice, optPixabay);
-    return data;
-  } catch (error) {
-    console.log(error.message);
+  loaderEl.classList.add('visually-hidden');
+
+  if (inputValue === '') {
+    iziToast.show({
+      message: 'Field must be filled!',
+      color: 'green', // blue, red, green, yellow
+      position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+      timeout: 2000,
+    });
+    return;
   }
+  if (Object.keys(data.hits).length === 0) {
+    iziToast.show({
+      message:
+        'Sorry, there are no images matching your search query. Please try again!',
+      color: 'blue', // blue, red, green, yellow
+      position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+      timeout: 3000,
+    });
+  }
+  gallaryEl.insertAdjacentHTML('beforeend', renderImages(data.hits));
+  lightbox.refresh();
+  formEl.reset();
+
+  return data;
 }
-
-
-
-
-
-
-
-
-
-// import iziToast from 'izitoast';
-// import 'izitoast/dist/css/iziToast.min.css';
-
-// export function getPhotos(inputValue) {
-//   const API_KEY = '43330031-9673f4a92262d12e3841226eb';
-//   const searchParams = new URLSearchParams({
-//     key: API_KEY,
-//     q: inputValue,
-//     image_type: 'photo',
-//     orientation: 'horizontal',
-//     safesearch: true,
-//     per_page: 15,
-//   });
-
-//   return fetch(`https://pixabay.com/api/?${searchParams}`).then(response => {
-//     if (!response.ok) {
-//       throw new Error(response.status);
-//     }
-//     return response.json();
-//   });
-// }
