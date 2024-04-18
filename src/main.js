@@ -66,20 +66,27 @@ btnLoaderMoreEl.addEventListener('click', async () => {
   loaderEl.classList.remove('visually-hidden');
   btnLoaderMoreEl.disabled = true;
 
-  const nextPage = await getPhotos(page);
+  try {
+      const nextPage = await getPhotos(page);
 
-  page += 1;
+      page += 1;
 
-  gallaryEl.insertAdjacentHTML('beforeend', renderImages(nextPage.hits));
+      gallaryEl.insertAdjacentHTML('beforeend', renderImages(nextPage.hits));
 
-  loaderEl.classList.add('visually-hidden');
-  btnLoaderMoreEl.disabled = false;
+      loaderEl.classList.add('visually-hidden');
+      btnLoaderMoreEl.disabled = false;
 
-  const totalPage = Math.ceil(nextPage.totalHits / nextPage.hits.length);
+      const totalPage = Math.ceil(nextPage.totalHits / nextPage.hits.length);
 
-  if (page >= totalPage) {
-    btnLoaderMoreEl.classList.add('visually-hidden');
+      if (page >= totalPage) {
+        btnLoaderMoreEl.classList.add('visually-hidden');
+      }
+
+  } catch (error) { 
+    console.log(error.message);
   }
+
+
 });
 
 // getBoundingClientRect();
