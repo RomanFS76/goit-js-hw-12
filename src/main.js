@@ -59,21 +59,19 @@ formEl.addEventListener('submit', async event => {
 let page = 1;
 
 btnLoaderMoreEl.addEventListener('click', async () => {
-
-  loaderEl.classList.remove('visually-hidden');
-
-
-
-
+  // loaderEl.classList.remove('visually-hidden');
+  
+ console.log(page);
   const nextPage = await getPhotos(page);
   page += 1;
-
+  console.log(page);
 
   gallaryEl.insertAdjacentHTML('beforeend', renderImages(nextPage.hits));
 
-  // totalPage = Math.ceil(nextPage.totalHits / limit);
+  const totalPage = Math.ceil(nextPage.totalHits / nextPage.hits.length);
 
-  // if () { };
-  loaderEl.classList.add('visually-hidden');
-  console.log(nextPage);
+
+  if (page >= totalPage) {
+    loaderEl.classList.add('visually-hidden');
+  }
 });
