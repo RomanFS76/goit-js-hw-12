@@ -92,9 +92,9 @@ btnLoaderMoreEl.addEventListener('click', async () => {
 
     console.log(rect.height);
 
-    const dddf = rect.height * 2;
+    const heightScroll = rect.height * 2;
     window.scrollBy({
-      top: dddf,
+      top: heightScroll,
       left: 0,
       behavior: 'smooth',
     });
