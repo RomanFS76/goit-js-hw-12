@@ -90,7 +90,7 @@ btnLoaderMoreEl.addEventListener('click', async () => {
     // --------------getBoundingClientRect---------------------------------
     let rect = gallaryEl.firstElementChild.getBoundingClientRect();
 
-    console.log(rect.height);
+    console.log(rect);
 
     const heightScroll = rect.height * 2;
     window.scrollBy({
@@ -98,11 +98,8 @@ btnLoaderMoreEl.addEventListener('click', async () => {
       left: 0,
       behavior: 'smooth',
     });
-
     // ---------------------------------------------------------------------
-
     const totalPage = Math.ceil(nextPage.totalHits / nextPage.hits.length);
-
     if (page >= totalPage) {
       btnLoaderMoreEl.classList.add('visually-hidden');
       iziToast.show({
