@@ -34,6 +34,7 @@ formEl.addEventListener('submit', async event => {
 
   try {
     const response = await getPhotos(inputValue);
+    console.log(response);
     if (inputValue === '') {
       loaderEl.classList.add('visually-hidden');
       iziToast.show({
@@ -61,6 +62,10 @@ formEl.addEventListener('submit', async event => {
     lightbox.refresh();
 
     btnLoaderMoreEl.classList.remove('visually-hidden');
+    console.log(response);
+    if (Object.keys(response.hits).length < 15) {
+      btnLoaderMoreEl.classList.add('visually-hidden');
+    }
     loaderEl.classList.add('visually-hidden');
   } catch (error) {
     console.log(error.message);
@@ -89,8 +94,6 @@ btnLoaderMoreEl.addEventListener('click', async () => {
     btnLoaderMoreEl.disabled = false;
     // --------------getBoundingClientRect---------------------------------
     let rect = gallaryEl.firstElementChild.getBoundingClientRect();
-
-    console.log(rect);
 
     const heightScroll = rect.height * 2;
     window.scrollBy({
