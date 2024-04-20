@@ -1,10 +1,10 @@
-import{a as h,S as L,i as p}from"./assets/vendor-6e0bf343.js";(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const t of document.querySelectorAll('link[rel="modulepreload"]'))o(t);new MutationObserver(t=>{for(const a of t)if(a.type==="childList")for(const r of a.addedNodes)r.tagName==="LINK"&&r.rel==="modulepreload"&&o(r)}).observe(document,{childList:!0,subtree:!0});function l(t){const a={};return t.integrity&&(a.integrity=t.integrity),t.referrerPolicy&&(a.referrerPolicy=t.referrerPolicy),t.crossOrigin==="use-credentials"?a.credentials="include":t.crossOrigin==="anonymous"?a.credentials="omit":a.credentials="same-origin",a}function o(t){if(t.ep)return;t.ep=!0;const a=l(t);fetch(t.href,a)}})();const v="https://pixabay.com/api/",b="43330031-9673f4a92262d12e3841226eb";async function y(e,s=1){const{data:l}=await h(v,{params:{key:b,q:e,image_type:"photo",orientation:"horizontal",safesearch:!0,per_page:15,page:s}});return l}function g(e){return e.map(({webformatURL:s,largeImageURL:l,tags:o,likes:t,views:a,comments:r,downloads:f})=>`
+import{a as f,S as L,i as u}from"./assets/vendor-6e0bf343.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))i(e);new MutationObserver(e=>{for(const a of e)if(a.type==="childList")for(const n of a.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&i(n)}).observe(document,{childList:!0,subtree:!0});function l(e){const a={};return e.integrity&&(a.integrity=e.integrity),e.referrerPolicy&&(a.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?a.credentials="include":e.crossOrigin==="anonymous"?a.credentials="omit":a.credentials="same-origin",a}function i(e){if(e.ep)return;e.ep=!0;const a=l(e);fetch(e.href,a)}})();const v="https://pixabay.com/api/",b="43330031-9673f4a92262d12e3841226eb";async function p(s,t=1,l=20){const{data:i}=await f(v,{params:{key:b,q:s,image_type:"photo",orientation:"horizontal",safesearch:!0,per_page:15,page:t}});return i}function m(s){return s.map(({webformatURL:t,largeImageURL:l,tags:i,likes:e,views:a,comments:n,downloads:g})=>`
         <li class="gallary-item">
           <a class="gallary-link" href="${l}">
               <img 
                 class="gallary-image" 
-                src="${s}"
-                alt="${o}"
+                src="${t}"
+                alt="${i}"
                 width = "1000"
                 height = "800"
               />
@@ -13,7 +13,7 @@ import{a as h,S as L,i as p}from"./assets/vendor-6e0bf343.js";(function(){const 
             <ul class="gallary-desc-list">
               <li class="gallary-desc-item">
                 <p>Likes</p>
-                <p>${t}</p>
+                <p>${e}</p>
               </li>
               <li class="gallary-desc-item">
                 <p>Views</p>
@@ -21,14 +21,14 @@ import{a as h,S as L,i as p}from"./assets/vendor-6e0bf343.js";(function(){const 
               </li>
               <li class="gallary-desc-item">
                 <p>Comments</p>
-                <p>${r}</p>
+                <p>${n}</p>
               </li>
               <li class="gallary-desc-item">
                 <p>Downloads</p>
-                <p>${f}</p>
+                <p>${g}</p>
               </li>
             </ul>
           </div>
         </li>
-      `).join("")}const m=document.querySelector(".form-search"),u=document.querySelector(".gallary"),n=document.querySelector("span"),i=document.querySelector(".btn-load-more"),w=new L(".gallary a",{captionsData:"alt",captionDelay:250});m.addEventListener("submit",async e=>{e.preventDefault();const s=e.target.elements.input.value;n.classList.remove("visually-hidden"),u.innerHTML="";try{const l=await y(s);if(console.log(l),n.classList.add("visually-hidden"),s===""){i.classList.add("visually-hidden"),p.show({message:"Field must be filled!",color:"green",position:"center",timeout:2e3});return}if(Object.keys(l.hits).length===0){i.classList.add("visually-hidden"),p.show({message:"Sorry, there are no images matching your search query. Please try again!",color:"blue",position:"center",timeout:3e3}),m.reset();return}u.insertAdjacentHTML("beforeend",g(l.hits)),w.refresh(),i.classList.remove("visually-hidden")}catch(l){console.log(l.message)}});let c=2;i.addEventListener("click",async()=>{n.classList.remove("visually-hidden"),i.disabled=!0;try{const e=await y(c);c+=1,u.insertAdjacentHTML("beforeend",g(e.hits)),n.classList.add("visually-hidden"),i.disabled=!1;const s=Math.ceil(e.totalHits/e.hits.length);c>=s&&i.classList.add("visually-hidden")}catch(e){console.log(e.message)}});let E=document.querySelector(".gallary-item"),d=E.getBoundingClientRect();for(const e in d)if(typeof d[e]!="function"){let s=document.createElement("p");s.textContent=`${e} : ${d[e]}`,document.body.appendChild(s)}window.scrollBy(0,window.innerHeight);
+      `).join("")}const h=document.querySelector(".form-search"),c=document.querySelector(".gallary"),o=document.querySelector("span"),r=document.querySelector(".btn-load-more"),w=new L(".gallary a",{captionsData:"alt",captionDelay:250});let y=null;h.addEventListener("submit",async s=>{s.preventDefault();const t=s.target.elements.input.value;y=t,o.classList.remove("visually-hidden"),r.classList.add("visually-hidden"),c.innerHTML="";try{const l=await p(t);if(t===""){o.classList.add("visually-hidden"),u.show({message:"Field must be filled!",color:"green",position:"center",timeout:2e3});return}if(Object.keys(l.hits).length===0){o.classList.add("visually-hidden"),u.show({message:"Sorry, there are no images matching your search query. Please try again!",color:"blue",position:"center",timeout:3e3}),h.reset();return}c.insertAdjacentHTML("beforeend",m(l.hits)),w.refresh(),r.classList.remove("visually-hidden"),o.classList.add("visually-hidden")}catch(l){console.log(l.message)}});let d=1;r.addEventListener("click",async()=>{r.classList.add("visually-hidden"),o.classList.remove("visually-hidden"),r.disabled=!0;try{d+=1;const s=await p(y,d);r.classList.remove("visually-hidden"),o.classList.add("visually-hidden"),c.insertAdjacentHTML("beforeend",m(s.hits)),r.disabled=!1;let t=c.firstElementChild.getBoundingClientRect();console.log(t.height);const l=t.height*2;window.scrollBy({top:l,left:0,behavior:"smooth"});const i=Math.ceil(s.totalHits/s.hits.length);d>=i&&(r.classList.add("visually-hidden"),u.show({message:"We're sorry, but you've reached the end of search results.",color:"red",position:"topLeft",timeout:2e3}))}catch(s){console.log(s.message)}});
 //# sourceMappingURL=commonHelpers.js.map
