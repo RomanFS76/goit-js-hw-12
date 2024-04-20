@@ -17,19 +17,25 @@ const lightbox = new SimpleLightbox('.gallary a', {
   captionDelay: 250,
 });
 
+// --------------search--------------
+
+let searchValue = null;
+
 formEl.addEventListener('submit', async event => {
   event.preventDefault();
+
   const inputValue = event.target.elements.input.value;
+  searchValue = inputValue;
 
   loaderEl.classList.remove('visually-hidden');
+  btnLoaderMoreEl.classList.add('visually-hidden');
+
   gallaryEl.innerHTML = '';
 
   try {
     const response = await getPhotos(inputValue);
-    console.log(response);
-    loaderEl.classList.add('visually-hidden');
     if (inputValue === '') {
-      btnLoaderMoreEl.classList.add('visually-hidden');
+      loaderEl.classList.add('visually-hidden');
       iziToast.show({
         message: 'Field must be filled!',
         color: 'green', // blue, red, green, yellow
@@ -39,7 +45,7 @@ formEl.addEventListener('submit', async event => {
       return;
     }
     if (Object.keys(response.hits).length === 0) {
-      btnLoaderMoreEl.classList.add('visually-hidden');
+      loaderEl.classList.add('visually-hidden');
       iziToast.show({
         message:
           'Sorry, there are no images matching your search query. Please try again!',
@@ -53,51 +59,60 @@ formEl.addEventListener('submit', async event => {
 
     gallaryEl.insertAdjacentHTML('beforeend', renderImages(response.hits));
     lightbox.refresh();
+
     btnLoaderMoreEl.classList.remove('visually-hidden');
+    loaderEl.classList.add('visually-hidden');
   } catch (error) {
     console.log(error.message);
   }
-  // formEl.reset();
 });
 
-let page = 2;
+// --------------LoaderMore--------------
+
+let page = 1;
 
 btnLoaderMoreEl.addEventListener('click', async () => {
+  btnLoaderMoreEl.classList.add('visually-hidden');
   loaderEl.classList.remove('visually-hidden');
   btnLoaderMoreEl.disabled = true;
 
   try {
-      const nextPage = await getPhotos(page);
+    page += 1;
 
-      page += 1;
+    const nextPage = await getPhotos(searchValue, page);
 
-      gallaryEl.insertAdjacentHTML('beforeend', renderImages(nextPage.hits));
+    btnLoaderMoreEl.classList.remove('visually-hidden');
+    loaderEl.classList.add('visually-hidden');
 
-      loaderEl.classList.add('visually-hidden');
-      btnLoaderMoreEl.disabled = false;
+    gallaryEl.insertAdjacentHTML('beforeend', renderImages(nextPage.hits));
 
-      const totalPage = Math.ceil(nextPage.totalHits / nextPage.hits.length);
+    btnLoaderMoreEl.disabled = false;
+    // --------------getBoundingClientRect---------------------------------
+    let rect = gallaryEl.firstElementChild.getBoundingClientRect();
 
-      if (page >= totalPage) {
-        btnLoaderMoreEl.classList.add('visually-hidden');
-      }
+    console.log(rect.height);
 
-  } catch (error) { 
+    const dddf = rect.height * 2;
+    window.scrollBy({
+      top: dddf,
+      left: 0,
+      behavior: 'smooth',
+    });
+
+    // ---------------------------------------------------------------------
+
+    const totalPage = Math.ceil(nextPage.totalHits / nextPage.hits.length);
+
+    if (page >= totalPage) {
+      btnLoaderMoreEl.classList.add('visually-hidden');
+      iziToast.show({
+        message: "We're sorry, but you've reached the end of search results.",
+        color: 'red', // blue, red, green, yellow
+        position: 'topLeft', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+        timeout: 2000,
+      });
+    }
+  } catch (error) {
     console.log(error.message);
   }
-
-
 });
-
-// getBoundingClientRect();
-
-let elem = document.querySelector('.gallary-item');
-let rect = elem.getBoundingClientRect();
-for (const key in rect) {
-  if (typeof rect[key] !== "function") {
-    let para = document.createElement("p");
-    para.textContent = `${key} : ${rect[key]}`;
-    document.body.appendChild(para);
-  }
-}
-window.scrollBy(0, window.innerHeight);
