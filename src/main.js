@@ -34,7 +34,6 @@ formEl.addEventListener('submit', async event => {
 
   try {
     const response = await getPhotos(inputValue);
-    console.log(response);
     if (inputValue === '') {
       loaderEl.classList.add('visually-hidden');
       iziToast.show({
