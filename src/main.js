@@ -57,15 +57,13 @@ formEl.addEventListener('submit', async event => {
       formEl.reset();
       return;
     }
+    if (response.totalHits > 15) {
+      btnLoaderMoreEl.classList.remove('visually-hidden');
+    }
 
     gallaryEl.insertAdjacentHTML('beforeend', renderImages(response.hits));
     lightbox.refresh();
 
-    btnLoaderMoreEl.classList.remove('visually-hidden');
-    console.log(response);
-    if (Object.keys(response.hits).length < 15) {
-      btnLoaderMoreEl.classList.add('visually-hidden');
-    }
     loaderEl.classList.add('visually-hidden');
   } catch (error) {
     console.log(error.message);
